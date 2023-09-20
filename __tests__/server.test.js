@@ -60,7 +60,7 @@ describe('Testing the REST /clothes Router', () => {
   test('Should CREATE clothes (/clothes)', async () => {
     let response = await request.post('/clothes').send({
       name: 'Chocolate',
-      flavor: 'sweet'
+      flavor: 'red'
     });
 
     expect(response.status).toEqual(200);
