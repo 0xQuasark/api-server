@@ -3,6 +3,7 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 const FoodConnection = require('./food.js');
+const ClothesConnection = require('./clothes.js');
 
 const SQL_CONNECTION_STRING = process.env.SQL_CONNECTION_STRING;
 
@@ -11,5 +12,6 @@ const sequelize = new Sequelize(SQL_CONNECTION_STRING, { dialect: 'postgres' });
 
 module.exports = {
   sequelize,
-  FoodModel: FoodConnection(sequelize, DataTypes)
+  FoodModel: FoodConnection(sequelize, DataTypes),
+  ClothesModel: ClothesConnection(sequelize, DataTypes)
 }

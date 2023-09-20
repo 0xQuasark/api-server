@@ -14,7 +14,7 @@ afterAll(async () => {
   await sequelize.close(); // close the Sequelize connection
 });
 
-describe('Testing the REST Router', () => {
+describe('Testing the REST /food Router', () => {
 
   // Test CREATE
   test('Should CREATE food (/food)', async () => {
@@ -48,6 +48,46 @@ describe('Testing the REST Router', () => {
 
   test('Should DELETE food (/food/1)', async () => {
     let response = await request.delete('/food/1');
+
+    expect(response.status).toEqual(204);
+  });
+
+})
+
+describe('Testing the REST /clothes Router', () => {
+
+  // Test CREATE
+  test('Should CREATE clothes (/clothes)', async () => {
+    let response = await request.post('/clothes').send({
+      name: 'Chocolate',
+      flavor: 'sweet'
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.name).toEqual('Chocolate');
+  });
+
+  // Test READ
+  test('Should READ clothes (/clothes)', async () => {
+    let response = await request.get('/clothes');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.results).toBeTruthy();
+  });
+
+  // Test UPDATE
+  test('Should UPDATE clothes (/clothes/1)', async () => {
+    let response = await request.put('/clothes/1').send({
+      name: 'Chocolate',
+      flavor: 'salty'
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.name).toEqual('Chocolate');
+  });
+
+  test('Should DELETE clothes (/clothes/1)', async () => {
+    let response = await request.delete('/clothes/1');
 
     expect(response.status).toEqual(204);
   });
