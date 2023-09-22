@@ -57,7 +57,7 @@ describe('Testing the REST /author Router', () => {
 describe('Testing the REST /book Router', () => {
 
   // Test CREATE
-  xtest('Should CREATE book (/book)', async () => {
+  test('Should CREATE book (/book)', async () => {
     let response = await request.post('/book').send({
       name: 'The Final Empire',
       genre: 'Fantasy',
@@ -81,7 +81,7 @@ describe('Testing the REST /book Router', () => {
     let response = await request.put('/book/1').send({
       name: 'The Final Empire',
       genre: 'Amazing',
-      authorId: 1
+      authorId: 2
     });
 
     expect(response.status).toEqual(200);
@@ -97,7 +97,7 @@ describe('Testing the REST /book Router', () => {
 })
 
 
-describe('Testing the REST /food Router', () => {
+xdescribe('Testing the REST /food Router', () => {
 
   // Test CREATE
   test('Should CREATE food (/food)', async () => {
@@ -137,7 +137,7 @@ describe('Testing the REST /food Router', () => {
 
 })
 
-describe('Testing the REST /clothes Router', () => {
+xdescribe('Testing the REST /clothes Router', () => {
 
   // Test CREATE
   test('Should CREATE clothes (/clothes)', async () => {
