@@ -14,6 +14,89 @@ afterAll(async () => {
   await sequelize.close(); // close the Sequelize connection
 });
 
+describe('Testing the REST /author Router', () => {
+
+  // Test CREATE
+  test('Should CREATE author (/author)', async () => {
+    let response = await request.post('/author').send({
+      name: 'Brandon Sanderson',
+      website: 'https://www.brandonsanderson.com/'
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.name).toEqual('Brandon Sanderson');
+  });
+
+  // Test READ
+  test('Should READ author (/author)', async () => {
+    let response = await request.get('/author');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.results).toBeTruthy();
+  });
+
+  // Test UPDATE
+  test('Should UPDATE author (/author/1)', async () => {
+    let response = await request.put('/author/1').send({
+      name: 'Brandon Sanderson',
+      flavor: 'https://www.dragonsteelbooks.com/'
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.name).toEqual('Brandon Sanderson');
+  });
+
+  test('Should DELETE author (/author/1)', async () => {
+    let response = await request.delete('/author/1');
+
+    expect(response.status).toEqual(200);
+  });
+
+})
+
+describe('Testing the REST /book Router', () => {
+
+  // Test CREATE
+  xtest('Should CREATE book (/book)', async () => {
+    let response = await request.post('/book').send({
+      name: 'The Final Empire',
+      genre: 'Fantasy',
+      authorId: 1
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.name).toEqual('The Final Empire');
+  });
+
+  // Test READ
+  test('Should READ book (/book)', async () => {
+    let response = await request.get('/book');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.results).toBeTruthy();
+  });
+
+  // Test UPDATE
+  test('Should UPDATE book (/book/1)', async () => {
+    let response = await request.put('/book/1').send({
+      name: 'The Final Empire',
+      genre: 'Amazing',
+      authorId: 1
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body.name).toEqual('The Final Empire');
+  });
+
+  test('Should DELETE book (/book/1)', async () => {
+    let response = await request.delete('/book/1');
+
+    expect(response.status).toEqual(200);
+  });
+
+})
+
+
 describe('Testing the REST /food Router', () => {
 
   // Test CREATE
