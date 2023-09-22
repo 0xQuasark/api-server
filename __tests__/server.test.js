@@ -49,7 +49,7 @@ describe('Testing the REST /food Router', () => {
   test('Should DELETE food (/food/1)', async () => {
     let response = await request.delete('/food/1');
 
-    expect(response.status).toEqual(204);
+    expect(response.status).toEqual(200);
   });
 
 })
@@ -89,7 +89,7 @@ describe('Testing the REST /clothes Router', () => {
   test('Should DELETE clothes (/clothes/1)', async () => {
     let response = await request.delete('/clothes/1');
 
-    expect(response.status).toEqual(204);
+    expect(response.status).toEqual(200);
   });
 
 })
