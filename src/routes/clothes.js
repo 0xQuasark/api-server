@@ -1,47 +1,33 @@
 'use strict';
 
 const express = require('express');
+const router = express.Router();
 const { ClothesModel } = require('../models');
 
-const router = express.Router(); // this can be attached to an app with specific routes
+router.get('/clothes', handleGet);
+router.post('/clothes', handlePost);
+router.put('/clothes/:id', handlePut);
+router.delete('/clothes/:id', handleDelete);
 
-router.get('/clothes', async (req, res) => {
-  // console.log('GET called')
-  try {
-    let records = await ClothesModel.findAll();
-    res.status(200).send({ results: records });
-  } catch (error) {
-    console.error('Error fetching records: ', error);
-  }
-});
 
-router.post('/clothes', async (req, res) => {
-  // console.log('POST called')
-  try {
-    let record = await ClothesModel.create(req.body);
-    res.status(200).json(record);
-  } catch (error) {
-    console.error('Error creating record: ', error);
-  }
-});
+async function handleGet(req, res) {
+  let records = await ClothesModel.read();
+  res.status(200).json({ results: records });
+}
 
-router.put('/clothes/:id', async (req, res) => {
-  let id = req.params.id;
-  let recordToUpdate = await ClothesModel.findByPk(id);
-  await recordToUpdate.update(req.body);
-  await recordToUpdate.save();
-  res.status(200).json(recordToUpdate);
-}); // route parameter => required value attached to the URI
+async function handlePost(req, res) {
+  let record = await ClothesModel.create(req.body);
+  res.status(200).json(record);
+}
 
-router.delete('/clothes/:id', async (req, res) => {
-  let id = req.params.id;
-  // console.log('DELETE called, id: ' + id)
-  // let record = await ClothesModel.findByPk(id);
-  await ClothesModel.destroy({
-    where: { id }
-  });
+async function handlePut(req, res) {
+  let record = await ClothesModel.update(req.params.id, req.body);
+  res.status(200).json(record);
+}
 
-  res.status(204).send('deleted');
-});
+async function handleDelete(req, res) {
+  let result = await ClothesModel.delete(req.params.id);
+  res.status(200).json({ result });
+}
 
 module.exports = router;

@@ -1,47 +1,33 @@
 'use strict';
 
 const express = require('express');
+const router = express.Router();
 const { FoodModel } = require('../models');
 
-const router = express.Router(); // this can be attached to an app with specific routes
+router.get('/food', handleGet);
+router.post('/food', handlePost);
+router.put('/food/:id', handlePut);
+router.delete('/food/:id', handleDelete);
 
-router.get('/food', async (req, res) => {
-  // console.log('GET called')
-  try {
-    let records = await FoodModel.findAll();
-    res.status(200).send({ results: records });
-  } catch (error) {
-    console.error('Error fetching records: ', error);
-  }
-});
 
-router.post('/food', async (req, res) => {
-  // console.log('POST called')
-  try {
-    let record = await FoodModel.create(req.body);
-    res.status(200).json(record);
-  } catch (error) {
-    console.error('Error creating record: ', error);
-  }
-});
+async function handleGet(req, res) {
+  let records = await FoodModel.read();
+  res.status(200).json({ results: records });
+}
 
-router.put('/food/:id', async (req, res) => {
-  let id = req.params.id;
-  let recordToUpdate = await FoodModel.findByPk(id);
-  await recordToUpdate.update(req.body);
-  await recordToUpdate.save();
-  res.status(200).json(recordToUpdate);
-}); // route parameter => required value attached to the URI
+async function handlePost(req, res) {
+  let record = await FoodModel.create(req.body);
+  res.status(200).json(record);
+}
 
-router.delete('/food/:id', async (req, res) => {
-  let id = req.params.id;
-  // console.log('DELETE called, id: ' + id)
-  // let record = await FoodModel.findByPk(id);
-  await FoodModel.destroy({
-    where: { id }
-  });
+async function handlePut(req, res) {
+  let record = await FoodModel.update(req.params.id, req.body);
+  res.status(200).json(record);
+}
 
-  res.status(204).send('deleted');
-});
+async function handleDelete(req, res) {
+  let result = await FoodModel.delete(req.params.id);
+  res.status(200).json({ result });
+}
 
 module.exports = router;
