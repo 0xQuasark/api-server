@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage --verbose",
+    "test:watch": "jest --watch",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },

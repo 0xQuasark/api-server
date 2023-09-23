@@ -16,8 +16,10 @@ async function handleGet(req, res) {
 }
 
 async function handlePost(req, res) {
+  console.log('Body: ', req.body);
   let record = await BookModel.create(req.body);
   res.status(200).json(record);
+  console.log('RECORD: ', record);
 }
 
 async function handlePut(req, res) {

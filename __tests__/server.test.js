@@ -2,12 +2,19 @@
 
 const supertest = require('supertest');
 const server = require('../src/server.js');
-const { sequelize } = require('../src/models/');
+const { sequelize, AuthorModel} = require('../src/models/');
 const request = supertest(server.app);
+
+let testAuthor;
 
 // built in jest function, setup our test suite
 beforeAll(async () => {
   await sequelize.sync(); // sets up our tables before tests run
+  testAuthor = await AuthorModel.create(
+    { 
+      "name": "Brandon Sanderson", 
+      "website" : "https://www.dragonsteelbooks.com"
+    })
 });
 afterAll(async () => {
   await sequelize.drop(); // removes the tables we set up for our test environment
@@ -47,7 +54,7 @@ describe('Testing the REST /author Router', () => {
   });
 
   test('Should DELETE author (/author/1)', async () => {
-    let response = await request.delete('/author/1');
+    let response = await request.delete('/author/2');
 
     expect(response.status).toEqual(200);
   });
@@ -61,7 +68,7 @@ describe('Testing the REST /book Router', () => {
     let response = await request.post('/book').send({
       name: 'The Final Empire',
       genre: 'Fantasy',
-      authorId: 1
+      authorId: testAuthor.id
     });
 
     expect(response.status).toEqual(200);
@@ -81,7 +88,7 @@ describe('Testing the REST /book Router', () => {
     let response = await request.put('/book/1').send({
       name: 'The Final Empire',
       genre: 'Amazing',
-      authorId: 2
+      authorId: 1
     });
 
     expect(response.status).toEqual(200);
@@ -97,7 +104,7 @@ describe('Testing the REST /book Router', () => {
 })
 
 
-xdescribe('Testing the REST /food Router', () => {
+describe('Testing the REST /food Router', () => {
 
   // Test CREATE
   test('Should CREATE food (/food)', async () => {
@@ -137,7 +144,7 @@ xdescribe('Testing the REST /food Router', () => {
 
 })
 
-xdescribe('Testing the REST /clothes Router', () => {
+describe('Testing the REST /clothes Router', () => {
 
   // Test CREATE
   test('Should CREATE clothes (/clothes)', async () => {
