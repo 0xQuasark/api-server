@@ -4,7 +4,7 @@ class Collection {
 
   constructor(model) {
     this.model = model;
-    console.log('this.model: ', this.model);
+    // console.log('this.model: ', this.model);
   }
 
   async read(id, options = {}) {
@@ -23,7 +23,9 @@ class Collection {
 
   async create(values) {
     try {
-      return this.model.create(values);
+      let myResponse = await this.model.create(values);
+      console.log('RESPONSE FROM CREATE: ', myResponse);
+      return myResponse;
     } catch (err) {
       console.log('SOMETHING WENT WRONG WHEN CREATING', this.model);
       console.error(err);
